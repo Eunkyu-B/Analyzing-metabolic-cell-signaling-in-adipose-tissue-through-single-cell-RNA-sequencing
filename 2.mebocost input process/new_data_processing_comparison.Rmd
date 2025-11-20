@@ -1,0 +1,828 @@
+---
+title: "mouse_all_expression"
+author: "Eunkyu Bang"
+date: "2023-12-27"
+output: html_document
+---
+
+```{r}
+library(SeuratObject)
+```
+
+
+```{r}
+library(Seurat)
+```
+
+
+```{r}
+mouse_all <- readRDS("~/WAT_sample/mouse_all.rds")
+```
+
+
+```{r}
+VlnPlot(mouse_all, features = c("Abat"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Slc6a6"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Slc6a1"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Slc6a8"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Slc6a11"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Slc6a12"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Slc6a13"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Ugp2"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Gale"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Gys1"),
+    pt.size = 0.2)
+``` 
+
+```{r}
+VlnPlot(mouse_all, features = c("Gys2"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Galt"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Entpd5"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Ugdh"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Slc35d2"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Slc35d3"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("Slc1a3"),
+    pt.size = 0.2)
+```
+
+
+```{r}
+VlnPlot(mouse_all, features = c("Slc38a1"),
+    pt.size = 0.2)
+```
+
+```{r}
+VlnPlot(mouse_all, features = c("P2ry14"),
+    pt.size = 0.2)
+```
+
+
+
+```{r}
+RidgePlot(mouse_all, features = "Ugdh")
+```
+
+```{r}
+VlnPlot(mouse_all, features = "Ugdh")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Ugdh")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Abat")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Slc6a1")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Slc6a6")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Slc6a8")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Slc6a11")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Slc6a12")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Slc6a13")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Ugp2")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Gale")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Gys1")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Gys2")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Galt")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Entpd5")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Ugdh")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Slc35d2")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Slc35d3")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Slc1a3")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Slc38a1")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "P2ry14")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Gys1")
+```
+
+```{r}
+# Plot a legend to map colors to expression levels
+FeaturePlot(mouse_all, features = "Gys1")
+```
+
+
+```{r}
+features1<- c("Slc6a1", "Slc6a6", "Slc6a8", "Slc6a11", "Slc6a12", "Slc6a13", "Abat")
+DotPlot(mouse_all, features = features1) + RotatedAxis()
+```
+
+```{r}
+features2<- c("Ugp2", "Gale", "Gys1", "Gys2", "Galt", "Entpd5", "Ugdh", "Slc35d2", "Slc35d3", "Slc1a3", "Slc38a1", "P2ry14")
+DotPlot(mouse_all, features = features2) + RotatedAxis()
+```
+
+```{r}
+mouse_m <- subset(mouse_all, sex == 'male')
+```
+
+```{r}
+mouse_mc <- subset(mouse_m, diet == 'Chow')
+```
+
+```{r}
+mouse_mh <- subset(mouse_m, diet == 'HFD')
+```
+
+
+```{r}
+mouse_m <- subset(mouse_all, sex == 'male')
+```
+
+```{r}
+mouse_mce <- subset(mouse_mc, depot == 'PG')
+```
+
+```{r}
+mouse_mci <- subset(mouse_mc, depot == 'ING')
+```
+
+
+```{r}
+saveRDS(mouse_m, file = "~/mouse_m.rds")
+```
+
+```{r}
+saveRDS(mouse_mc, file = "~/mouse_mc.rds")
+```
+
+```{r}
+saveRDS(mouse_mh, file = "~/mouse_mh.rds")
+```
+
+```{r}
+mouse_mc <- readRDS("~/mouse_mc.rds")
+```
+
+```{r}
+mouse_mh <- readRDS("~/mouse_mh.rds")
+```
+
+```{r}
+mouse_ch <- readRDS("~/mouse_ch.rds")
+```
+
+```{r}
+mouse_cc <- readRDS("~/mouse_cc.rds")
+```
+
+
+```{r}
+saveRDS(mouse_mce, file = "~/mouse_mce.rds")
+```
+
+```{r}
+saveRDS(mouse_cci, file = "~/mouse_cci.rds")
+```
+
+```{r}
+saveRDS(mouse_mhe, file = "~/mouse_mhe.rds")
+```
+
+```{r}
+saveRDS(mouse_mci, file = "~/mouse_mci.rds")
+```
+
+```{r}
+mouse_cce <- readRDS("~/mouse_cce.rds")
+```
+
+```{r}
+features1<- c("Slc6a1", "Slc6a6", "Slc6a8", "Slc6a11", "Slc6a12", "Slc6a13", "Abat")
+DotPlot(mouse_cce, features = features1) + RotatedAxis()
+```
+
+```{r}
+features2<- c("Ugp2", "Gale", "Gys1", "Gys2", "Galt", "Entpd5", "Ugdh", "Slc35d2", "Slc35d3", "Slc1a3", "Slc38a1", "P2ry14")
+DotPlot(mouse_cce, features = features2) + RotatedAxis()
+```
+
+```{r}
+DimPlot(mouse_cce)
+```
+
+
+```{r}
+mouse_cci <- readRDS("~/mouse_cci.rds")
+```
+
+```{r}
+features1<- c("Slc6a1", "Slc6a6", "Slc6a8", "Slc6a11", "Slc6a12", "Slc6a13", "Abat")
+DotPlot(mouse_cci, features = features1) + RotatedAxis()
+```
+
+```{r}
+features2<- c("Ugp2", "Gale", "Gys1", "Gys2", "Galt", "Entpd5", "Ugdh", "Slc35d2", "Slc35d3", "Slc1a3", "Slc38a1", "P2ry14")
+DotPlot(mouse_cci, features = features2) + RotatedAxis()
+```
+
+```{r}
+DimPlot(mouse_cci)
+```
+
+```{r}
+mouse_che <- readRDS("~/mouse_che.rds")
+```
+
+```{r}
+features1<- c("Slc6a1", "Slc6a6", "Slc6a8", "Slc6a11", "Slc6a12", "Slc6a13", "Abat")
+DotPlot(mouse_che, features = features1) + RotatedAxis()
+```
+
+```{r}
+features2<- c("Ugp2", "Gale", "Gys1", "Gys2", "Galt", "Entpd5", "Ugdh", "Slc35d2", "Slc35d3", "Slc1a3", "Slc38a1", "P2ry14")
+DotPlot(mouse_che, features = features2) + RotatedAxis()
+```
+
+```{r}
+DimPlot(mouse_che)
+```
+
+```{r}
+mouse_chi <- readRDS("~/mouse_chi.rds")
+```
+
+```{r}
+features1<- c("Slc6a1", "Slc6a6", "Slc6a8", "Slc6a11", "Slc6a12", "Slc6a13", "Abat")
+DotPlot(mouse_chi, features = features1) + RotatedAxis()
+```
+
+```{r}
+features2<- c("Ugp2", "Gale", "Gys1", "Gys2", "Galt", "Entpd5", "Ugdh", "Slc35d2", "Slc35d3", "Slc1a3", "Slc38a1", "P2ry14")
+DotPlot(mouse_chi, features = features2) + RotatedAxis()
+```
+
+```{r}
+DimPlot(mouse_chi)
+```
+
+```{r}
+mouse_mce <- readRDS("~/mouse_mce.rds")
+```
+
+```{r}
+features1<- c("Slc6a1", "Slc6a6", "Slc6a8", "Slc6a11", "Slc6a12", "Slc6a13", "Abat")
+DotPlot(mouse_mce, features = features1) + RotatedAxis()
+```
+
+```{r}
+features2<- c("Ugp2", "Gale", "Gys1", "Gys2", "Galt", "Entpd5", "Ugdh", "Slc35d2", "Slc35d3", "Slc1a3", "Slc38a1", "P2ry14")
+DotPlot(mouse_mce, features = features2) + RotatedAxis()
+```
+
+```{r}
+DimPlot(mouse_mce)
+```
+
+```{r}
+mouse_mci <- readRDS("~/mouse_mci.rds")
+```
+
+```{r}
+features1<- c("Slc6a1", "Slc6a6", "Slc6a8", "Slc6a11", "Slc6a12", "Slc6a13", "Abat")
+DotPlot(mouse_mci, features = features1) + RotatedAxis()
+```
+
+```{r}
+features2<- c("Ugp2", "Gale", "Gys1", "Gys2", "Galt", "Entpd5", "Ugdh", "Slc35d2", "Slc35d3", "Slc1a3", "Slc38a1", "P2ry14")
+DotPlot(mouse_mci, features = features2) + RotatedAxis()
+```
+
+```{r}
+DimPlot(mouse_mci)
+```
+
+```{r}
+mouse_mhe <- readRDS("~/mouse_mhe.rds")
+```
+
+```{r}
+features1<- c("Slc6a1", "Slc6a6", "Slc6a8", "Slc6a11", "Slc6a12", "Slc6a13", "Abat")
+DotPlot(mouse_mhe, features = features1) + RotatedAxis()
+```
+
+```{r}
+features2<- c("Ugp2", "Gale", "Gys1", "Gys2", "Galt", "Entpd5", "Ugdh", "Slc35d2", "Slc35d3", "Slc1a3", "Slc38a1", "P2ry14")
+DotPlot(mouse_mhe, features = features2) + RotatedAxis()
+```
+
+```{r}
+DimPlot(mouse_mhe)
+```
+
+```{r}
+mouse_mhi <- readRDS("~/mouse_mhi.rds")
+```
+
+```{r}
+features1<- c("Slc6a1", "Slc6a6", "Slc6a8", "Slc6a11", "Slc6a12", "Slc6a13", "Abat")
+DotPlot(mouse_mhi, features = features1) + RotatedAxis()
+```
+
+```{r}
+features2<- c("Ugp2", "Gale", "Gys1", "Gys2", "Galt", "Entpd5", "Ugdh", "Slc35d2", "Slc35d3", "Slc1a3", "Slc38a1", "P2ry14")
+DotPlot(mouse_mhi, features = features2) + RotatedAxis()
+```
+
+```{r}
+DimPlot(mouse_mhi)
+```
+
+
+```{r}
+mouse_cce$condition <- "control"
+```
+
+```{r}
+mouse_che$condition <- "HFD"
+```
+
+```{r}
+deg_example <- FindIntegrationAnchors(object.list = list(mouse_cce, mouse_che), dims = 1:20)
+```
+
+```{r}
+mouse_example_list <- list()
+mouse_example_list[["mouse_cce"]] <- mouse_cce
+mouse_example_list[["mouse_che"]] <- mouse_che
+
+for (i in 1:length(mouse_example_list)) {
+  mouse_example_list[[i]] <- NormalizeData(mouse_example_list[[i]], verbose = F)
+  mouse_example_list[[i]] <- FindVariableFeatures(mouse_example_list[[i]], selection.method = "vst", nfeatures = 2000, verbose = F)
+}
+```
+
+```{r}
+mouse_anchors <- FindIntegrationAnchors(object.list = mouse_example_list, dims = 1:30)
+```
+
+```{r}
+mouse_m <- readRDS("~/mouse_m.rds")
+```
+
+```{r}
+mouse_me <- subset(mouse_m, depot == 'PG')
+```
+
+
+```{r}
+saveRDS(mouse_me, file = "~/mouse_me.rds")
+```
+
+```{r}
+mouse_me <- readRDS("~/mouse_me.rds")
+```
+
+```{r}
+mouse_mi <- subset(mouse_m, depot == 'ING')
+```
+
+```{r}
+saveRDS(mouse_mi, file = "~/mouse_mi.rds")
+```
+
+
+```{r}
+FeaturePlot(mouse_me, features = c("Ugp2"), split.by = "diet", max.cutoff = 3, 
+    cols = c("grey", "red"))
+```
+
+
+
+```{r}
+features1<- c("Slc6a1", "Slc6a6", "Slc6a8", "Slc6a11", "Slc6a12", "Slc6a13", "Abat")
+DotPlot(mouse_me, features = features1) + RotatedAxis()
+```
+
+```{r}
+features2<- c("Ugp2", "Gale", "Gys1", "Gys2", "Galt", "Entpd5", "Ugdh", "Slc35d2", "Slc35d3", "Slc1a3", "Slc38a1", "P2ry14")
+DotPlot(mouse_me, features = features2) + RotatedAxis()
+```
+
+```{r}
+DimPlot(mouse_me)
+```
+
+```{r}
+# Extract raw counts and metadata to create SingleCellExperiment object
+counts <- mouse_me@assays$RNA@counts 
+
+metadata <- mouse_me@meta.data
+
+# Set up metadata as desired for aggregation and DE analysis
+metadata$cluster_id <- factor(mouse_me@active.ident)
+
+# Create single cell experiment object
+sce <- SingleCellExperiment(assays = list(counts = counts), 
+                           colData = metadata)
+```
+
+```{r}
+library(SingleCellExperiment)
+```
+
+```{r}
+Idents(mouse_me) <- mouse_me@meta.data$diet
+```
+
+```{r}
+markers_me <- FindMarkers(
+  object = mouse_me,
+  ident.1 = "Chow",
+  ident.2 = "HFD",
+  min.pct = 0.01,
+  logfc.threshold = 0.1,
+  test.use = "MAST"
+)
+```
+
+```{r}
+write.csv(markers_me, file = "me_markers.csv", row.names = TRUE)
+```
+
+```{r}
+Idents(mouse_mi) <- mouse_mi@meta.data$diet
+```
+
+```{r}
+markers_mi <- FindMarkers(
+  object = mouse_mi,
+  ident.1 = "Chow",
+  ident.2 = "HFD",
+  min.pct = 0.01,
+  logfc.threshold = 0.1,
+  test.use = "MAST"
+)
+```
+
+```{r}
+write.csv(markers_mi, file = "mi_markers.csv", row.names = TRUE)
+```
+
+```{r}
+Idents(mouse_ce) <- mouse_ce@meta.data$diet
+```
+
+```{r}
+markers_ce <- FindMarkers(
+  object = mouse_ce,
+  ident.1 = "Chow",
+  ident.2 = "HFD",
+  min.pct = 0.1,
+  logfc.threshold = 0.1,
+  test.use = "MAST"
+)
+```
+
+```{r}
+write.csv(markers_ce, file = "ce_markers.csv", row.names = TRUE)
+```
+
+```{r}
+Idents(mouse_ci) <- mouse_ci@meta.data$diet
+```
+
+```{r}
+markers_ci <- FindMarkers(
+  object = mouse_ci,
+  ident.1 = "Chow",
+  ident.2 = "HFD",
+  min.pct = 0.01,
+  logfc.threshold = 0.1,
+  test.use = "MAST"
+)
+```
+
+```{r}
+write.csv(markers_ci, file = "ci_markers.csv", row.names = TRUE)
+```
+
+
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+mouse_ce <- subset(mouse_all, depot == 'PG')
+```
+
+```{r}
+mouse_ci <- subset(mouse_all, depot == 'ING')
+```
+
+```{r}
+saveRDS(mouse_ce, file = "~/mouse_ce.rds")
+```
+
+```{r}
+saveRDS(mouse_ci, file = "~/mouse_ci.rds")
+```
+
+```{r}
+mouse_ci <- readRDS("~/mouse_ci.rds")
+```
+
+```{r}
+mouse_mce <- readRDS("~/mouse_mce.rds")
+```
+
+```{r}
+saveRDS(mouse_mce_adipocyte, file = "~/mouse_mce_adipocyte.rds")
+```
+
+```{r}
+mouse_mce_adipocyte <- mouse_mce[ , rownames(mouse_mce@meta.data)[mouse_mce@meta.data$cell_type2 == 'adipocyte']]
+```
+
+```{r}
+write.csv(mouse_mce_adipocyte, file = "mouse_mce_adipocyte_markers.csv", row.names = TRUE)
+```
+
+```{r}
+mouse_mhe <- readRDS("~/mouse_mhe.rds")
+```
+
+```{r}
+mouse_mhe_adipocyte <- mouse_mhe[ , rownames(mouse_mhe@meta.data)[mouse_mhe@meta.data$cell_type2 == 'adipocyte']]
+```
+
+```{r}
+saveRDS(mouse_mhe_adipocyte, file = "~/mouse_mhe_adipocyte.rds")
+```
+
+```{r}
+mouse_mhe_adipocyte
+```
+
+```{r}
+write.csv(mouse_mhe_adipocyte, file = "mouse_mhe_adipocyte_markers.csv", row.names = TRUE)
+```
+
+```{r}
+mouse_mhe_adipocyte <- readRDS("~/mouse_mhe_adipocyte.rds")
+```
+
+```{r}
+average_mhe_aidpocyte <- AverageExpression(object = mouse_mhe_adipocyte)$RNA
+```
+
+```{r}
+write.csv(average_mhe_aidpocyte, file = "mhe_adipocyte_markers.csv", row.names = TRUE)
+```
+
+
+
+```{r}
+DimPlot(mouse_all)
+```
+
+```{r}
+features2<- c("Ugp2", "Gale", "Gys1", "Gys2", "Galt", "Entpd5", "Ugdh", "Slc35d2", "Slc35d3", "Slc1a3", "Slc38a1", "P2ry14")
+DotPlot(mouse_all, features = features2) + RotatedAxis()
+```
+
+```{r}
+mouse_mce_adipocyte <- readRDS("~/mouse_mce_adipocyte.rds")
+```
+
+```{r}
+average_mce_aidpocyte <- AverageExpression(object = mouse_mce_adipocyte)$RNA
+```
+
+```{r}
+write.csv(average_mce_aidpocyte, file = "mce_adipocyte_markers.csv", row.names = TRUE)
+```
+
+```{r}
+mouse_mhe_adipocyte <- readRDS("~/mouse_mhe_adipocyte.rds")
+```
+
+```{r}
+average_mhe_aidpocyte <- AverageExpression(object = mouse_mhe_adipocyte)$RNA
+```
+
+```{r}
+write.csv(average_mhe_aidpocyte, file = "mhe_adipocyte_markers.csv", row.names = TRUE)
+```
+
+
+```{r}
+mouse_me_adipocyte <- readRDS("~/mouse_me_adipocyte.rds")
+```
+
+```{r}
+Idents(mouse_me_adipocyte) <- mouse_me_adipocyte@meta.data$diet
+```
+
+
+
+```{r}
+markers_mouse_me_adipocyte <- FindMarkers(
+  object = mouse_me_adipocyte,
+  ident.1 = "Chow",
+  ident.2 = "HFD",
+  min.pct = 0.01,
+  logfc.threshold = 0.1,
+  test.use = "MAST"
+)
+```
+
+```{r}
+write.csv(markers_mouse_me_adipocyte, file = "mouse_me_adipocyte_markers.csv", row.names = TRUE)
+```
+
+
+
+```{r}
+saveRDS(mouse_mce_adipocyte, file = "~/mouse_mce_adipocyte.rds")
+```
+
+
+
+```{r}
+mouse_mci <- readRDS("~/mouse_mci.rds")
+```
+
+```{r}
+mouse_mci_adipocyte <- mouse_mci[ , rownames(mouse_mci@meta.data)[mouse_mci@meta.data$cell_type2 == 'adipocyte']]
+```
+
+```{r}
+saveRDS(mouse_mci_adipocyte, file = "~/mouse_mci_adipocyte.rds")
+```
+
+```{r}
+average_mci_aidpocyte <- AverageExpression(object = mouse_mci_adipocyte)$RNA
+```
+
+```{r}
+write.csv(average_mci_aidpocyte, file = "mci_adipocyte_markers.csv", row.names = TRUE)
+```
+
+
+
+
+```{r}
+mouse_mhi <- readRDS("~/mouse_mhi.rds")
+```
+
+```{r}
+mouse_mhi_adipocyte <- mouse_mhi[ , rownames(mouse_mhi@meta.data)[mouse_mhi@meta.data$cell_type2 == 'adipocyte']]
+```
+
+```{r}
+saveRDS(mouse_mhi_adipocyte, file = "~/mouse_mhi_adipocyte.rds")
+```
+
+```{r}
+average_mhi_aidpocyte <- AverageExpression(object = mouse_mhi_adipocyte)$RNA
+```
+
+```{r}
+write.csv(average_mhi_aidpocyte, file = "mhi_adipocyte_markers.csv", row.names = TRUE)
+```
+
