@@ -1,0 +1,988 @@
+---
+title: "prism_example"
+output: html_document
+date: "2025-01-02"
+---
+
+```{r}
+# Load ggplot2
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(reshape)
+```
+
+
+
+
+
+```{r}
+ERR_plot <- read.csv(file = "C:\\Users\\user\\Desktop\\new_graph\\TPM_Table_ERR.csv", sep=",", header=T,check.names = FALSE)
+```
+
+
+
+```{r}
+ERR_final <- ERR_plot %>% filter(Geneid == "ENSMUSG00000079834")
+```
+
+
+```{r}
+condition =c("Cold","Cold","Cold","Cold","TN","TN","TN")
+```
+
+```{r}
+ERR_bar<-melt(ERR_final)
+```
+
+
+```{r}
+ERR_bar$condition <- condition
+```
+
+
+```{r}
+# Calculates mean, sd, se and IC
+my_sum <- ERR_bar %>%
+  group_by(condition) %>%
+  summarise( 
+    n=n(),
+    mean=mean(value),
+    sd=sd(value)
+  ) %>%
+  mutate( se=sd/sqrt(n))  %>%
+  mutate( ic=se * qt((1-0.05)/2 + .5, n-1))
+
+# Confidence Interval
+ggplot(my_sum) +
+  geom_bar( aes(x=condition, y=mean), stat="identity", fill="forestgreen", alpha=0.5) +
+  geom_errorbar( aes(x=condition, ymin=mean-ic, ymax=mean+ic), width=0.01, colour="black", alpha=0.9, size=0.5) +
+  ggtitle("using confidence interval")
+```
+
+
+
+```{r}
+SRR_plot <- read.csv(file = "C:\\Users\\user\\Desktop\\new_graph\\TPM_Table_SRR.csv", sep=",", header=T,check.names = FALSE)
+```
+
+
+
+```{r}
+SRR_final <- SRR_plot %>% filter(Geneid == "ENSMUSG00000079834")
+```
+
+```{r}
+SRR_bar<-melt(SRR_final)
+```
+
+
+```{r}
+condition_SRR =c("TN","TN","TN","TN", "Cold","Cold","Cold","Cold")
+```
+
+
+
+
+```{r}
+SRR_bar$condition <- condition_SRR
+```
+
+
+```{r}
+# Calculates mean, sd, se and IC
+my_sum <- SRR_bar %>%
+  group_by(condition) %>%
+  summarise( 
+    n=n(),
+    mean=mean(value),
+    sd=sd(value)
+  ) %>%
+  mutate( se=sd/sqrt(n))  %>%
+  mutate( ic=se * qt((1-0.05)/2 + .5, n-1))
+
+ 
+# Confidence Interval
+ggplot(my_sum) +
+  geom_bar( aes(x=condition, y=mean), stat="identity", fill="skyblue", alpha=0.5) +
+  geom_errorbar( aes(x=condition, ymin=mean-ic, ymax=mean+ic), width=0.2, colour="black", alpha=0.9, size=0.5) +
+  ggtitle("using confidence interval")
+```
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(ggpubr)
+# Load dataset
+Transporter_plot <- read.csv("Combined_Slc22a4_Slc22a5_Table.csv")
+# Define significance levels
+Transporter_plot$significance <- ifelse(
+  Transporter_plot$p_val_adj < 0.001, "***",
+  ifelse(Transporter_plot$p_val_adj < 0.01, "**",
+  ifelse(Transporter_plot$p_val_adj < 0.05, "*", "ns")))
+# Compute y-position for significance markers
+Transporter_plot <- Transporter_plot %>%
+  mutate(
+    # Find the global max value (avoiding NA values)
+    global_max = max(avg_log2FC, na.rm = TRUE),
+    # Ensure markers are positioned slightly above each bar
+    y_position = ifelse(avg_log2FC > 0, avg_log2FC + (global_max * 0.05) + 0.1,
+                        avg_log2FC - (global_max * 0.05) - 0.1)
+  )
+# Create GraphPad Prism-style bar plot with properly positioned significance markers
+ggplot(data = Transporter_plot, aes(x = Condition, y = avg_log2FC, fill = transporter)) +
+  # Bar plot with black outlines and adjusted width
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7),
+           width = 0.5, color = "black", alpha = 0.8) +
+  # Significance markers positioned slightly above (or below) each bar
+  geom_text(aes(y = y_position, label = significance),
+            position = position_dodge(width = 0.7), vjust = -0.5, size = 5, fontface = "bold") +
+  # Custom Prism-like color palette
+  scale_fill_manual(values = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF")) +
+  # Expand y-axis limits dynamically to ensure markers remain visible
+  expand_limits(y = global_max + 0.5) +
+  # GraphPad Prism-style minimal theme
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.line = element_line(color = "black"),  # Black axis lines for clarity
+    axis.text = element_text(size = 12, color = "black"),  # Readable axis text
+    axis.title = element_text(size = 14, face = "bold"),  # Bold axis labels
+    panel.grid.major = element_blank(),  # No major gridlines (Prism-like)
+    panel.grid.minor = element_blank(),  # No minor gridlines
+    panel.border = element_blank(),  # No borders
+    legend.position = "top",  # Legend placed on top
+    axis.text.x = element_text(angle = 45, hjust = 1)  # Rotate x-axis labels for better readability
+  ) +
+  # Labels for clarity
+  labs(title = "Transporter Expression by Condition",
+       y = "avg_log2FC", x = "Condition")
+```
+
+```{r}
+library(ggplot2)
+# Example dataset
+df <- data.frame(
+  category = rep(c("A", "B"), 2),
+  value = c(3, 5, 4, 6),
+  group = rep(c("Dataset1", "Dataset2"), each = 2),
+  se = c(0.5, 0.7, 0.6, 0.8)  # Example standard errors
+)
+# Plot
+ggplot(df, aes(x = category, y = value, fill = group)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.6),
+           width = 0.4, color = "black") +  # Adds a black border
+  geom_errorbar(aes(ymin = value - se, ymax = value + se),
+                position = position_dodge(width = 0.6), width = 0.2) +  # Error bars
+  scale_fill_manual(values = c("#0073C2FF", "#EFC000FF")) +  # Custom Prism-like colors
+  theme_minimal(base_size = 14) +  # GraphPad Prism-like font size
+  theme(
+    axis.line = element_line(color = "black"),  # Black axis lines
+    axis.text = element_text(size = 12, color = "black"),  # Readable axis text
+    axis.title = element_text(size = 14, face = "bold"),  # Bold axis labels
+    panel.grid.major = element_blank(),  # No major gridlines
+    panel.grid.minor = element_blank(),  # No minor gridlines
+    panel.border = element_blank(),  # No border
+    legend.position = "top",  # Legend on top
+    legend.title = element_blank()  # No legend title
+  )
+```
+
+```{r}
+# Compute summary statistics for ERR
+my_sum_ERR <- ERR_bar %>%
+  group_by(condition) %>%
+  summarise(
+    n = n(),
+    mean = mean(value),
+    sd = sd(value),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    se = sd / sqrt(n),
+    ic = se * qt((1 - 0.05) / 2 + 0.5, n - 1)
+  )
+# Compute summary statistics for SRR
+my_sum_SRR <- SRR_bar %>%
+  group_by(condition) %>%
+  summarise(
+    n = n(),
+    mean = mean(value),
+    sd = sd(value),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    se = sd / sqrt(n),
+    ic = se * qt((1 - 0.05) / 2 + 0.5, n - 1)
+  )
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+# Filter only TN and Cold for ERR
+my_sum_ERR <- ERR_bar %>%
+  filter(condition %in% c("TN", "Cold")) %>%
+  group_by(condition) %>%
+  summarise(
+    n = n(),
+    mean = mean(value),
+    sd = sd(value),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    se = sd / sqrt(n),
+    ic = se * qt((1 - 0.05) / 2 + 0.5, n - 1)
+  )
+# Filter only TN and Cold for SRR
+my_sum_SRR <- SRR_bar %>%
+  filter(condition %in% c("TN", "Cold")) %>%
+  group_by(condition) %>%
+  summarise(
+    n = n(),
+    mean = mean(value),
+    sd = sd(value),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    se = sd / sqrt(n),
+    ic = se * qt((1 - 0.05) / 2 + 0.5, n - 1)
+  )
+```
+
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(patchwork)  # For merging plots
+# Filter only TN and Cold for ERR and SRR
+err_filtered <- ERR_bar %>%
+  filter(condition %in% c("TN", "Cold"))
+srr_filtered <- SRR_bar %>%
+  filter(condition %in% c("TN", "Cold"))
+# Compute summary statistics for ERR
+my_sum_ERR <- err_filtered %>%
+  group_by(condition) %>%
+  summarise(
+    n    = n(),
+    mean = mean(value),
+    sd   = sd(value),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    se = sd / sqrt(n),
+    ic = se * qt(0.975, n - 1)  # 95% Confidence Interval
+  )
+# Compute summary statistics for SRR
+my_sum_SRR <- srr_filtered %>%
+  group_by(condition) %>%
+  summarise(
+    n    = n(),
+    mean = mean(value),
+    sd   = sd(value),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    se = sd / sqrt(n),
+    ic = se * qt(0.975, n - 1)  # 95% Confidence Interval
+  )
+# Create bar plot for ERR (TN vs Cold)
+p1 <- ggplot(my_sum_ERR, aes(x = condition, y = mean, fill = condition)) +
+  geom_bar(stat = "identity", width = 0.4, color = "black") +
+  geom_errorbar(aes(ymin = mean - ic, ymax = mean + ic),
+                width = 0.2, color = "black") +
+  scale_fill_manual(values = c("forestgreen", "darkolivegreen3")) +  # Custom colors
+  ggtitle("ERR: TN vs Cold") +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.line = element_line(color = "black"),
+    axis.text = element_text(size = 12, color = "black"),
+    axis.title = element_text(size = 14, face = "bold"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "none"
+  ) +
+  labs(y = "Mean Value", x = "Condition")
+# Create bar plot for SRR (TN vs Cold)
+p2 <- ggplot(my_sum_SRR, aes(x = condition, y = mean, fill = condition)) +
+  geom_bar(stat = "identity", width = 0.4, color = "black") +
+  geom_errorbar(aes(ymin = mean - ic, ymax = mean + ic),
+                width = 0.2, color = "black") +
+  scale_fill_manual(values = c("skyblue", "deepskyblue3")) +  # Custom colors
+  ggtitle("SRR: TN vs Cold") +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.line = element_line(color = "black"),
+    axis.text = element_text(size = 12, color = "black"),
+    axis.title = element_text(size = 14, face = "bold"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "none"
+  ) +
+  labs(y = "Mean Value", x = "Condition")
+# Merge the two plots side by side
+combined_plot <- p1 + p2
+combined_plot  # Display the merged plot
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+# Merge ERR and SRR datasets while keeping their dataset identifier
+merged_data <- bind_rows(
+  ERR_bar %>% mutate(dataset = "Short_period_cold"),
+  SRR_bar %>% mutate(dataset = "Long_period_co")
+) %>%
+  filter(condition %in% c("TN", "Cold"))  # Select only TN and Cold conditions
+# Compute summary statistics
+my_sum <- merged_data %>%
+  group_by(dataset, condition) %>%  # Group by dataset (ERR/SRR) and condition (TN/Cold)
+  summarise(
+    n    = n(),
+    mean = mean(value),
+    sd   = sd(value),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    se = sd / sqrt(n),
+    ic = se * qt(0.975, n - 1)  # 95% Confidence Interval
+  )
+# Create a grouped bar plot comparing TN vs. Cold within each dataset
+ggplot(my_sum, aes(x = dataset, y = mean, fill = condition)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.6),
+           width = 0.4, color = "black") +
+  geom_errorbar(aes(ymin = mean - ic, ymax = mean + ic),
+                position = position_dodge(width = 0.6), width = 0.2,
+                colour = "black", size = 0.5) +
+  scale_fill_manual(values = c("forestgreen", "skyblue")) +  # TN = green, Cold = blue
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.line = element_line(color = "black"),
+    axis.text = element_text(size = 12, color = "black"),
+    axis.title = element_text(size = 14, face = "bold"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "top"
+  ) +
+  labs(title = "Comparison of TN vs. Cold in ERR and SRR",
+       y = "Mean Value", x = "Dataset (ERR vs. SRR)")
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(ggpubr)
+# Load dataset
+Transporter_plot <- read.csv("Combined_Slc22a4_Slc22a5_Table.csv")
+# Define significance levels
+Transporter_plot$significance <- ifelse(
+  Transporter_plot$p_val_adj < 0.001, "***",
+  ifelse(Transporter_plot$p_val_adj < 0.01, "**",
+  ifelse(Transporter_plot$p_val_adj < 0.05, "*", "ns")))
+# Find the global highest avg_log2FC value across all conditions and transporters
+global_max <- max(Transporter_plot$avg_log2FC, na.rm = TRUE)
+# Set all significance markers to align slightly above the highest bar
+Transporter_plot <- Transporter_plot %>%
+  mutate(y_position = global_max + 0.15)  # Increased offset for better spacing
+# Create GraphPad Prism-style bar plot
+p <- ggplot(data = Transporter_plot, aes(x = Condition, y = avg_log2FC, fill = transporter)) +
+  # Bar plot with black outlines and adjusted width
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7),
+           width = 0.5, color = "black", alpha = 0.8) +
+  # Add small underlines at y = 0 ONLY for bars that cross zero
+  geom_segment(aes(x = as.numeric(as.factor(Condition)) - 0.2,
+                   xend = as.numeric(as.factor(Condition)) + 0.2,
+                   y = 0, yend = 0),
+               color = "black", size = 0.8) +
+  # Significance markers positioned at global highest bar
+  geom_text(aes(y = y_position, label = significance),
+            position = position_dodge(width = 0.7), vjust = -0.3, size = 5, fontface = "bold") +
+  # Custom Prism-like color palette
+  scale_fill_manual(values = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF")) +
+  # Expand y-axis limits dynamically to ensure markers remain visible
+  expand_limits(y = global_max + 0.4) +  # Increased to avoid cutoff
+  # GraphPad Prism-style minimal theme
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.line = element_line(color = "black"),  # Black axis lines for clarity
+    axis.text = element_text(size = 12, color = "black"),  # Readable axis text
+    axis.title = element_text(size = 14, face = "bold"),  # Bold axis labels
+    panel.grid.major = element_blank(),  # No major gridlines (Prism-like)
+    panel.grid.minor = element_blank(),  # No minor gridlines
+    panel.border = element_blank(),  # No borders
+    legend.position = "top",  # Legend placed on top
+    axis.text.x = element_text(angle = 45, hjust = 1)  # Rotate x-axis labels for readability
+  ) +
+  # Labels for clarity
+  labs(title = "Transporter Expression by Condition",
+       y = "avg_log2FC", x = "Condition")
+# Save the plot with increased height to prevent cutoff
+ggsave("GraphPad_Prism_Style_Barplot_with_Short_Zero_Lines.png", plot = p, width = 10, height = 7, dpi = 600)
+# Display the plot
+print(p)
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(ggpubr)
+# Load dataset
+Transporter_plot <- read.csv("Combined_Slc22a4_Slc22a5_Table.csv")
+# Define significance levels
+Transporter_plot$significance <- ifelse(
+  Transporter_plot$p_val_adj < 0.001, "***",
+  ifelse(Transporter_plot$p_val_adj < 0.01, "**",
+  ifelse(Transporter_plot$p_val_adj < 0.05, "*", "ns")))
+# Find the global highest avg_log2FC value across all conditions and transporters
+global_max <- max(Transporter_plot$avg_log2FC, na.rm = TRUE)
+# Set all significance markers to align slightly above the highest bar
+Transporter_plot <- Transporter_plot %>%
+  mutate(y_position = global_max + 0.15)  # Increased offset for better spacing
+# Create GraphPad Prism-style bar plot
+p <- ggplot(data = Transporter_plot, aes(x = Condition, y = avg_log2FC, fill = transporter)) +
+  # Bar plot with black outlines and adjusted width
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7),
+           width = 0.5, color = "black", alpha = 0.8) +
+  # Add a **thin, straight line at y = 0** (x-axis)
+  geom_hline(yintercept = 0, color = "black", size = 0.5) +
+  # Significance markers positioned at global highest bar
+  geom_text(aes(y = y_position, label = significance),
+            position = position_dodge(width = 0.7), vjust = -0.3, size = 5, fontface = "bold") +
+  # Custom Prism-like color palette
+  scale_fill_manual(values = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF")) +
+  # Expand y-axis limits dynamically to ensure markers remain visible
+  expand_limits(y = global_max + 0.4) +  # Increased to avoid cutoff
+  # GraphPad Prism-style minimal theme
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.line = element_line(color = "black"),  # Black axis lines for clarity
+    axis.text = element_text(size = 12, color = "black"),  # Readable axis text
+    axis.title = element_text(size = 14, face = "bold"),  # Bold axis labels
+    panel.grid.major = element_blank(),  # No major gridlines (Prism-like)
+    panel.grid.minor = element_blank(),  # No minor gridlines
+    panel.border = element_blank(),  # No borders
+    legend.position = "top",  # Legend placed on top
+    axis.text.x = element_text(angle = 45, hjust = 1)  # Rotate x-axis labels for readability
+  ) +
+  # Labels for clarity
+  labs(title = "Transporter Expression by Condition",
+       y = "avg_log2FC", x = "Condition")
+# Save the plot with increased height to prevent cutoff
+ggsave("GraphPad_Prism_Style_Barplot_with_Thin_Zero_Line.png", plot = p, width = 10, height = 7, dpi = 600)
+# Display the plot
+print(p)
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+# Merge ERR and SRR datasets while keeping their dataset identifier
+merged_data <- bind_rows(
+  ERR_bar %>% mutate(dataset = "Short_period_cold"),
+  SRR_bar %>% mutate(dataset = "Long_period_cold")
+) %>%
+  filter(condition %in% c("TN", "Cold"))  # Select only TN and Cold conditions
+# Compute mean separately for each condition within each dataset
+mean_values <- merged_data %>%
+  group_by(dataset, condition) %>%
+  summarise(mean_value = mean(value), .groups = "drop")
+# Create a box plot comparing TN vs. Cold within each dataset
+ggplot(merged_data, aes(x = dataset, y = value, fill = condition)) +
+  geom_boxplot(outlier.shape = NA, color = "black", alpha = 0.6, position = position_dodge(width = 0.6)) +  # Boxplot 기본
+  geom_point(data = mean_values, aes(x = dataset, y = mean_value, fill = condition),
+             shape = 21, size = 3, color = "red", position = position_dodge(width = 0.6)) +  # Mean(●) 표시
+  scale_fill_manual(values = c("forestgreen", "skyblue")) +  # TN = green, Cold = blue
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.line = element_line(color = "black"),
+    axis.text = element_text(size = 12, color = "black"),
+    axis.title = element_text(size = 14, face = "bold"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "top"
+  ) +
+  labs(title = "Comparison of TN vs. Cold in different cold exposrue period",
+       y = "TPM",  # Y-axis label 변경
+       x = "Short vs Long")
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Merge and filter
+merged_data <- bind_rows(
+  ERR_bar %>% mutate(dataset = "Short_period_cold"),
+  SRR_bar %>% mutate(dataset = "Long_period_cold")
+) %>%
+  filter(condition %in% c("TN", "Cold"))
+
+# Separate datasets
+short_data <- merged_data %>% filter(dataset == "Short_period_cold")
+long_data <- merged_data %>% filter(dataset == "Long_period_cold")
+
+# Compute mean values
+short_mean <- short_data %>% group_by(condition) %>%
+  summarise(mean_value = mean(value), .groups = "drop")
+
+long_mean <- long_data %>% group_by(condition) %>%
+  summarise(mean_value = mean(value), .groups = "drop")
+
+# --- First Figure: Short period cold ---
+p1 <- ggplot(short_data, aes(x = condition, y = value, fill = condition)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.6, color = "black") +
+  geom_jitter(width = 0.15, size = 2, alpha = 0.8, color = "black") +
+  scale_fill_manual(values = c("TN" = "forestgreen", "Cold" = "skyblue")) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.line = element_line(color = "black"),
+    axis.text = element_text(size = 12, color = "black"),
+    axis.title = element_text(size = 14, face = "bold"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "none"
+  ) +
+  labs(title = "Short Period Cold", x = "Condition", y = "TPM")
+
+# --- Second Figure: Long period cold ---
+p2 <- ggplot(long_data, aes(x = condition, y = value, fill = condition)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.6, color = "black") +
+  geom_jitter(width = 0.15, size = 2, alpha = 0.8, color = "black") +
+  scale_fill_manual(values = c("TN" = "forestgreen", "Cold" = "skyblue")) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.line = element_line(color = "black"),
+    axis.text = element_text(size = 12, color = "black"),
+    axis.title = element_text(size = 14, face = "bold"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "none"
+  ) +
+  labs(title = "Long Period Cold", x = "Condition", y = "TPM")
+
+# Display plots
+print(p1)
+print(p2)
+
+ggsave("short_Slim_Transporter_Barplot.png", plot = p1, width = 5, height = 7, dpi = 600)
+ggsave("long_Slim_Transporter_Barplot.png", plot = p2, width = 5, height = 7, dpi = 600)
+
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(readr)
+
+# Step 1: Read the file and remove empty rows
+Transporter_plot <- read_csv("Combined_Slc22a4_Slc22a5_Table.csv") %>%
+  filter(!is.na(transporter), !is.na(p_val_adj), !is.na(avg_log2FC), !is.na(Condition))
+
+# Step 2: Add significance column
+Transporter_plot <- Transporter_plot %>%
+  mutate(significance = case_when(
+    p_val_adj < 0.001 ~ "***",
+    p_val_adj < 0.01 ~ "**",
+    p_val_adj < 0.05 ~ "*",
+    TRUE ~ "ns"
+  ))
+
+# Step 3: Compute y-position for significance labels
+global_max <- max(Transporter_plot$avg_log2FC, na.rm = TRUE)
+Transporter_plot <- Transporter_plot %>%
+  mutate(y_position = global_max + 0.15)
+
+# Step 4: Plot
+p <- ggplot(data = Transporter_plot, aes(x = Condition, y = avg_log2FC, fill = transporter)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7),
+           width = 0.5, color = "black", alpha = 0.8) +
+  geom_hline(yintercept = 0, color = "black", size = 0.5) +
+  geom_text(aes(y = y_position, label = significance),
+            position = position_dodge(width = 0.7), vjust = -0.3, size = 5, fontface = "bold") +
+  scale_fill_manual(values = c("Slc22a4" = "#0073C2FF", "Slc22a5" = "#EFC000FF")) +
+  expand_limits(y = global_max + 0.4) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.line = element_line(color = "black"),
+    axis.text = element_text(size = 12, color = "black"),
+    axis.title = element_text(size = 14, face = "bold"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    legend.position = "top",
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  ) +
+  labs(title = "Transporter Expression by Condition",
+       y = "avg_log2FC", x = "Condition")
+
+# Save and show
+ggsave("GraphPad_Prism_Style_Barplot_Cleaned.png", plot = p, width = 10, height = 7, dpi = 600)
+print(p)
+
+
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(readr)
+
+# Load and clean the dataset
+Transporter_plot <- read_csv("Combined_Slc22a4_Slc22a5_Table.csv") %>%
+  filter(!is.na(transporter), !is.na(p_val_adj), !is.na(avg_log2FC), !is.na(Condition))
+
+# Add significance
+Transporter_plot <- Transporter_plot %>%
+  mutate(significance = case_when(
+    p_val_adj < 0.001 ~ "***",
+    p_val_adj < 0.01 ~ "**",
+    p_val_adj < 0.05 ~ "*",
+    TRUE ~ "ns"
+  ))
+
+# Adjust y position
+global_max <- max(Transporter_plot$avg_log2FC, na.rm = TRUE)
+Transporter_plot <- Transporter_plot %>%
+  mutate(y_position = global_max + 0.15)
+
+# Plot with thinner bars
+p <- ggplot(data = Transporter_plot, aes(x = Condition, y = avg_log2FC, fill = transporter)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.5),
+           width = 0.35, color = "black", alpha = 0.85) +
+  geom_hline(yintercept = 0, color = "black", size = 0.4) +
+  geom_text(aes(y = y_position, label = significance),
+            position = position_dodge(width = 0.5), vjust = -0.4, size = 4.5, fontface = "bold") +
+  scale_fill_manual(values = c("Slc22a4" = "#0073C2FF", "Slc22a5" = "#EFC000FF")) +
+  expand_limits(y = global_max + 0.4) +
+  theme_minimal(base_size = 13) +
+  theme(
+    axis.line = element_line(color = "black"),
+    axis.text = element_text(size = 11, color = "black"),
+    axis.title = element_text(size = 13, face = "bold"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "top",
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  ) +
+  labs(title = "Transporter Expression by Condition",
+       y = "avg_log2FC", x = "Condition")
+
+# Save with narrower width
+# Save with Prism-style dimensions (narrow and tall)
+ggsave("Prism_Style_Slim_Transporter_Barplot.png", plot = p, width = 5, height = 7, dpi = 600)
+
+print(p)
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
