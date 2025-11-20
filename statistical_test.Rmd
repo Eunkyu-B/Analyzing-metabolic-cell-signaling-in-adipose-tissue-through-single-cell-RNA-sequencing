@@ -1,0 +1,141 @@
+---
+title: "logistf"
+author: "Eunkyu Bang"
+date: "2025-05-17"
+output: html_document
+---
+
+```{r}
+library(logistf)
+
+```
+
+```{r}
+tbl <- matrix(c(2, 1550, 82, 1707), nrow = 2, byrow = TRUE)
+
+# 행/열 이름 설정 (선택사항)
+rownames(tbl) <- c("Group A", "Group B")
+colnames(tbl) <- c("Positive", "Negative")
+
+# Chi-square test 수행
+chisq.test(tbl)
+```
+
+
+```{r}
+tbl <- matrix(c(2, 1550, 29, 1639), nrow = 2, byrow = TRUE)
+
+# 행/열 이름 설정 (선택사항)
+rownames(tbl) <- c("Group A", "Group B")
+colnames(tbl) <- c("Positive", "Negative")
+
+# Chi-square test 수행
+chisq.test(tbl)
+```
+
+
+```{r}
+tbl <- matrix(c(9, 1543, 36, 1632), nrow = 2, byrow = TRUE)
+
+# 행/열 이름 설정 (선택사항)
+rownames(tbl) <- c("Group A", "Group B")
+colnames(tbl) <- c("Positive", "Negative")
+
+# Chi-square test 수행
+chisq.test(tbl)
+```
+
+
+```{r}
+tbl <- matrix(c(9, 1543, 95, 1694), nrow = 2, byrow = TRUE)
+
+# 행/열 이름 설정 (선택사항)
+rownames(tbl) <- c("Group A", "Group B")
+colnames(tbl) <- c("Positive", "Negative")
+
+# Chi-square test 수행
+chisq.test(tbl)
+```
+
+
+```{r}
+tbl <- matrix(c(15, 379, 492,4699 ), nrow = 2, byrow = TRUE)
+
+# 행/열 이름 설정 (선택사항)
+rownames(tbl) <- c("Group A", "Group B")
+colnames(tbl) <- c("Positive", "Negative")
+
+# Chi-square test 수행
+chisq.test(tbl)
+```
+
+
+```{r}
+tbl <- matrix(c(15, 379, 425,3869 ), nrow = 2, byrow = TRUE)
+
+# 행/열 이름 설정 (선택사항)
+rownames(tbl) <- c("Group A", "Group B")
+colnames(tbl) <- c("Positive", "Negative")
+
+# Chi-square test 수행
+chisq.test(tbl)
+```
+
+
+```{r}
+tbl <- matrix(c(38, 8705, 495,10406 ), nrow = 2, byrow = TRUE)
+
+# 행/열 이름 설정 (선택사항)
+rownames(tbl) <- c("Group A", "Group B")
+colnames(tbl) <- c("Positive", "Negative")
+
+# Chi-square test 수행
+chisq.test(tbl)
+```
+
+
+```{r}
+tbl <- matrix(c(38, 8705, 1035,15890 ), nrow = 2, byrow = TRUE)
+
+# 행/열 이름 설정 (선택사항)
+rownames(tbl) <- c("Group A", "Group B")
+colnames(tbl) <- c("Positive", "Negative")
+
+# Chi-square test 수행
+chisq.test(tbl)
+```
+
+```{r}
+tbl <- matrix(c(89, 8654, 565,10336 ), nrow = 2, byrow = TRUE)
+
+# 행/열 이름 설정 (선택사항)
+rownames(tbl) <- c("Group A", "Group B")
+colnames(tbl) <- c("Positive", "Negative")
+
+# Chi-square test 수행
+chisq.test(tbl)
+```
+
+```{r}
+tbl <- matrix(c(89, 8654, 1186,15739 ), nrow = 2, byrow = TRUE)
+
+# 행/열 이름 설정 (선택사항)
+rownames(tbl) <- c("Group A", "Group B")
+colnames(tbl) <- c("Positive", "Negative")
+
+# Chi-square test 수행
+chisq.test(tbl)
+```
+
+
+```{r}
+tbl <- matrix(c(0, 13, 24,191 ), nrow = 2, byrow = TRUE)
+
+# 행/열 이름 설정 (선택사항)
+rownames(tbl) <- c("Group A", "Group B")
+colnames(tbl) <- c("Positive", "Negative")
+
+# Chi-square test 수행
+chisq.test(tbl)
+```
+
