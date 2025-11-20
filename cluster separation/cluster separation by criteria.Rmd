@@ -1,0 +1,116 @@
+---
+title: "Beige_merge"
+author: "Eunkyu Bang"
+date: "2024-08-16"
+output: html_document
+---
+
+```{r}
+library(SoupX)
+library(dplyr)
+library(Seurat)
+library(patchwork)
+library(tidyverse)
+library(harmony)
+library(furrr)
+library(future)
+library(here)
+library(SingleCellExperiment)
+```
+
+
+
+```{r}
+Beige_merged <- readRDS("~/Beige_sample/GSE184706_integrated_rt_ce4_ce7.rds")
+```
+
+
+
+```{r}
+Beige_CE7 <- subset(Beige_merged, orig.ident == 'ce7')
+```
+
+
+
+
+
+
+```{r}
+cell_type3 <- c("ucp1_low","ucp1_null", "Beige", "ucp1_low", "ucp1_null", "Beige", "ucp1_low", "ucp1_null", "ucp1_null", "ucp1_null")
+names(cell_type3) <- levels(Beige_CE7)
+Beige_CE7 <- RenameIdents(Beige_CE7, cell_type3)
+DimPlot(Beige_merged, reduction = "umap", group.by = "seurat_clusters", pt.size = 0.05)
+```
+
+```{r}
+Beige_CE7$cell_type3 <- Idents(Beige_CE7)
+```
+
+```{r}
+cell_type_Beige <- c("p0","p1", "Beige", "p3", "p4", "Beige", "p6", "p7", "p8", "p9")
+names(cell_type_Beige) <- levels(Beige_CE7)
+Beige_CE7 <- RenameIdents(Beige_CE7, cell_type_Beige)
+DimPlot(Beige_CE7, reduction = "umap", group.by = "seurat_clusters", pt.size = 0.05)
+```
+
+```{r}
+Beige_CE7$cell_type_Beige <- Idents(Beige_CE7)
+```
+
+```{r}
+cell_type_ucp1_null <- c("p0","ucp1_null", "p2", "p3", "ucp1_null", "p5", "p6", "ucp1_null", "ucp1_null", "ucp1_null")
+names(cell_type_ucp1_null) <- levels(Beige_CE7)
+Beige_CE7 <- RenameIdents(Beige_CE7, cell_type_ucp1_null)
+DimPlot(Beige_CE7, reduction = "umap", group.by = "seurat_clusters", pt.size = 0.05)
+```
+
+```{r}
+Beige_CE7$cell_type_ucp1_null <- Idents(Beige_CE7)
+```
+
+```{r}
+cell_type_ucp1_low <- c("ucp1_low","p1", "p2", "ucp1_low", "p4", "p5", "ucp1_low", "p7", "p8", "p9")
+names(cell_type_ucp1_low) <- levels(Beige_CE7)
+Beige_CE7 <- RenameIdents(Beige_CE7, cell_type_ucp1_low)
+DimPlot(Beige_CE7, reduction = "umap", group.by = "seurat_clusters", pt.size = 0.05)
+```
+
+```{r}
+Beige_CE7$cell_type_ucp1_low <- Idents(Beige_CE7)
+```
+
+
+
+```{r}
+# load libraries
+library(Seurat)
+library(tidyverse)
+library(Matrix)
+```
+
+
+```{r}
+# write matrix data (gene expression counts) 
+counts_matrix <- GetAssayData(Beige_CE7, assay='RNA', slot='counts')
+writeMM(counts_matrix, file=paste0(file='~/Beige_merged_celltype3/CE7/matrix.mtx'))
+
+# write dimensional reduction matrix (PCA)
+write.csv (Beige_CE7@reductions$pca@cell.embeddings, 
+           file='~/Beige_merged_celltype3/CE7/pca.csv', quote=F, row.names=F)
+
+# write gene names
+write.table(data.frame('gene'=rownames(counts_matrix)),
+            file='~/Beige_merged_celltype3/CE7/gene_names.csv',
+            quote=F,row.names=F,col.names=F)
+
+view(Beige_CE7@meta.data)
+
+# save metadata table:
+Beige_CE7$barcode <- colnames(Beige_CE7)
+Beige_CE7$UMAP_1 <- Beige_CE7@reductions$umap@cell.embeddings[,1]
+Beige_CE7$UMAP_2 <- Beige_CE7@reductions$umap@cell.embeddings[,2]
+write.csv(Beige_CE7@meta.data, file='~/Beige_merged_celltype3/CE7/metadata.csv', 
+          quote=F, row.names=F)
+```
+
+
